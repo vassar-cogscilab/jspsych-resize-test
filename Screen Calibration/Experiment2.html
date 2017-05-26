@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="jspsych.js"></script>
+	<script src="plugins/jspsych-resize.js"></script>
+	<script src="plugins/jspsych-measure-width.js"></script>
+  <script src="plugins/jspsych-instructions.js"></script>
+  <script src="plugins/jspsych-survey-multi-select.js"></script>
+	<link rel="stylesheet" href="css/jspsych.css"></link>
+</head>
+<body>
+</body>
+<script>
+
+  var instructions = {
+    type: 'instructions',
+    pages: [
+      'Welcome to the jsPsych display size experiment!</br></br>'+
+			'Thank you for taking the time to do this experiment.  Today we will be testing a technique for calibrating the display sizes of stimuli.</br>'+
+			'For this experiment, you will need to maximize your browser, a ruler that measures up to at least 6 inches, and a credit card.</br>'+
+			'Be assured that all answers you provide will be kept in the strictest confidentiality.  This experiment should only take 10 - 15 minutes to complete.</br>'+
+			'Please click ‘Next’ to begin.</br></br>'
+    ],
+    show_clickable_nav: true
+  }
+
+  var unchangedBoxes = {
+    type: 'measure-width',
+    randomize_order: true,
+    timeline: [
+        {ruler: true, prompt: '<p class="center-content">Using your ruler, measure the width of the red rectangle.<br/>Record the measured width by sliding the tick mark above the ruler or by entering the value where you see \'0.00\'.<br/>Click \'Done\' when you have finished.</p>', stimulus:'<div id="box1" style="width: 150px; height: 100px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+        // {ruler: true, prompt: '<p class="center-content">Using your ruler, measure the width of the red rectangle.<br/>Record the measured width by sliding the tick mark above the ruler or by entering the value where you see \'0.00\'.<br/>Click \'Done\' when you have finished.</p>', stimulus:'<div id="box2" style="width: 300px; height: 200px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+        // {ruler: true, prompt: '<p class="center-content">Using your ruler, measure the width of the red rectangle.<br/>Record the measured width by sliding the tick mark above the ruler or by entering the value where you see \'0.00\'.<br/>Click \'Done\' when you have finished.</p>', stimulus:'<div id="box3" style="width: 50px; height: 50px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+        // {ruler: true, prompt: '<p class="center-content">Using your ruler, measure the width of the red rectangle.<br/>Record the measured width by sliding the tick mark above the ruler or by entering the value where you see \'0.00\'.<br/>Click \'Done\' when you have finished.</p>', stimulus:'<div id="box4" style="width: 182px; height: 126px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+        // {ruler: true, prompt: '<p class="center-content">Using your ruler, measure the width of the red rectangle.<br/>Record the measured width by sliding the tick mark above the ruler or by entering the value where you see \'0.00\'.<br/>Click \'Done\' when you have finished.</p>', stimulus:'<div id="box5" style="width: 164px; height: 174px; background-color: red; margin: 0 auto;"></div>', is_html: true}
+    ]
+  }
+
+	var resize = {
+		type: 'resize',
+		item_width: 3 + 3/8,
+		item_height: 2 + 1/8,
+		prompt: "<p>Click and drag the lower right corner of the box until the box is the same size as a credit card held up to the screen.<br/>I would recommend first dragging the square until it is much larger than your actual credit card and then adjusting as neccesary.</p>",
+		pixels_per_unit: 642/4
+	};
+
+  var resizedBoxes = {
+    type: 'measure-width',
+    randomize_order: true,
+    timeline: [
+			{ruler: true, prompt: '<p class="center-content">Using your ruler, measure the width of the red rectangle.<br/>Record the measured width by sliding the tick mark above the ruler or by entering the value where you see \'0.00\'.<br/>Click \'Done\' when you have finished.</p>', stimulus:'<div id="box1" style="width: 150px; height: 100px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+			// {ruler: true, prompt: '<p class="center-content">Using your ruler, measure the width of the red rectangle.<br/>Record the measured width by sliding the tick mark above the ruler or by entering the value where you see \'0.00\'.<br/>Click \'Done\' when you have finished.</p>', stimulus:'<div id="box2" style="width: 300px; height: 200px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+			// {ruler: true, prompt: '<p class="center-content">Using your ruler, measure the width of the red rectangle.<br/>Record the measured width by sliding the tick mark above the ruler or by entering the value where you see \'0.00\'.<br/>Click \'Done\' when you have finished.</p>', stimulus:'<div id="box3" style="width: 50px; height: 50px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+			// {ruler: true, prompt: '<p class="center-content">Using your ruler, measure the width of the red rectangle.<br/>Record the measured width by sliding the tick mark above the ruler or by entering the value where you see \'0.00\'.<br/>Click \'Done\' when you have finished.</p>', stimulus:'<div id="box4" style="width: 182px; height: 126px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+			// {ruler: true, prompt: '<p class="center-content">Using your ruler, measure the width of the red rectangle.<br/>Record the measured width by sliding the tick mark above the ruler or by entering the value where you see \'0.00\'.<br/>Click \'Done\' when you have finished.</p>', stimulus:'<div id="box5" style="width: 164px; height: 174px; background-color: red; margin: 0 auto;"></div>', is_html: true}
+    ]
+  }
+
+  var question = ["Which of the following objects would you be able to easily find in your home right now? (select all that would apply)"]
+
+  var choices = [
+    ["Credit/Debit card", "Driver's License / Non-driver identification card", "3x5\" index card", "U.S. Quarter", "U.S. Dime", "U.S. Nickel", "U.S. Penny", "A sheet of standard size paper (8.5\" x 11\")",  "CD/DVD", "A check (for a bank account)", "A playing card from a standard deck of cards", "AA battery", "AAA battery", "9V battery"]
+  ]
+
+  var multi_choice_block = {
+     type: 'survey-multi-select',
+     questions: question,
+     options: choices,
+     horizontal: false,
+     required: true,
+		 on_finish: function() {
+			 jsPsych.endExperiment('Again, thank you for taking the time to complete the jsPsych display size experiment.</br>'+
+			 'The goal of this experiment was to test the accuracy of the calibration tool used to resize the display</br>'+
+			 'size of an online experiment so that it is the same size regardless of screen size</br>');
+			 console.log("data", jsPsych.data);
+		 }
+  };
+
+
+	jsPsych.init({
+		timeline: [instructions, unchangedBoxes, resize, resizedBoxes, multi_choice_block],
+    show_progress_bar: true,
+		on_finish: function() {
+		}
+	});
+	</script>
+</html>
