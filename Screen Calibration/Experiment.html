@@ -35,19 +35,19 @@
   var unchangedBoxes = {
     type: 'measure-width',
     timeline: [
-        {ruler: true, stimulus:'<div id="box1" style="width: 150px; height: 100px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-        //{ruler: true, stimulus:'<div id="box2" style="width: 300px; height: 200px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-        {ruler: true, stimulus:'<div id="box3" style="width: 50px; height: 50px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-        // {ruler: true, stimulus:'<div id="box4" style="width: 182px; height: 126px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-        // {ruler: true, stimulus:'<div id="box5" style="width: 164px; height: 174px; background-color: red; margin: 0 auto;"></div>', is_html: true}
+        {ruler: true, stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+        //{ruler: true, stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+        {ruler: true, stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+        // {ruler: true, stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+        // {ruler: true, stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>', is_html: true}
     ],
 		randomize_order: true
   }
 
 	var resize = {
 		type: 'resize',
-		item_width: 3 + 3/8,
-		item_height: 2 + 1/8,
+		item_width: 3,
+		item_height: 3,
 		prompt: "<p>You can click and drag the bottom right corner of the box on the screen to change its size.<br/>Use your ruler to make the box exactly 3 inches wide. When you are done, click the button below to continue</p>",
 		pixels_per_unit: 100/1
 	};
@@ -55,11 +55,11 @@
   var resizedBoxes = {
     type: 'measure-width',
     timeline: [
-			{ruler: true, stimulus:'<div id="box1" style="width: 150px; height: 100px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-			// {ruler: true, stimulus:'<div id="box2" style="width: 300px; height: 200px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-			// {ruler: true, stimulus:'<div id="box3" style="width: 50px; height: 50px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-			// {ruler: true, stimulus:'<div id="box4" style="width: 182px; height: 126px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-			// {ruler: true, stimulus:'<div id="box5" style="width: 164px; height: 174px; background-color: red; margin: 0 auto;"></div>', is_html: true}
+			{ruler: true, stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+			//{ruler: true, stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+			//{ruler: true, stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+			// {ruler: true, stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>', is_html: true},
+			// {ruler: true, stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>', is_html: true}
     ],
     randomize_order: true
   }
