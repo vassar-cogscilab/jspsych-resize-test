@@ -98,16 +98,6 @@
      options: choices,
      horizontal: false,
      required: true,
-		 on_finish: function() {
-			 jsPsych.endExperiment('Thank you for participating! Your participation is helping us to develop a tool that will<br/>'+
-			 											 'allow researchers to have more control over the viewing conditions of online experiments.<br/>'+
-														 'By measuring the display size with a ruler or an object of a known size, we can adjust the<br/>'+
-														 'size of objects in the experiment to ensure that they display at similar sizes for people with<br/>'+
-														 'different kinds of computers. We will use data from this experiment to determine how effective<br/>'+
-														 'this calibration process is. If you have any questions about the research, please contact<br/>'+
-														 'Dr. Josh de Leeuw at jdeleeuw@vassar.edu. Thank you again!');
-			 console.log("data", jsPsych.data);
-		 }
   };
 
 	function saveData() {
@@ -123,9 +113,19 @@
   	xhr.send(jsPsych.data.getData().json());
 	}
 
+	var debrief = {
+    type: 'instructions',
+    pages: [
+      'On the next five screens, we will display a box and a ruler. You should measure the width (left edge to right edge) of<br/>'+
+			'the box in inches, and then click on the ruler to indicate the measurement that you got. When you are ready to begin,<br/>'+
+			'click the button below.<br/><br/>'
+    ],
+    show_clickable_nav: false
+  }
+
 
 	jsPsych.init({
-		timeline: [introduction, instructions, unchangedBoxes, resize, instructions, resizedBoxes, multi_choice_block],
+		timeline: [introduction, instructions, unchangedBoxes, resize, instructions, resizedBoxes, multi_choice_block, debrief],
     show_progress_bar: true,
 		on_finish: saveData
 	});
