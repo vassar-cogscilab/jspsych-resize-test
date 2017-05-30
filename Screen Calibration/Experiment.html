@@ -33,14 +33,21 @@
   }
 
   var unchangedBoxes = {
-    type: 'measure-width',
     timeline: [
-        {ruler: true, stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-        //{ruler: true, stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-        {ruler: true, stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-        // {ruler: true, stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-        // {ruler: true, stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>', is_html: true}
+			{
+				type: 'measure-width',
+				ruler: true,
+				is_html: true,
+				stimulus: jsPsych.timelineVariable('stimulus')
+			}
     ],
+		timeline_variables: [
+			{stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
+		],
 		randomize_order: true
   }
 
@@ -53,15 +60,22 @@
 	};
 
   var resizedBoxes = {
-    type: 'measure-width',
-    timeline: [
-			{ruler: true, stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-			//{ruler: true, stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-			//{ruler: true, stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-			// {ruler: true, stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>', is_html: true},
-			// {ruler: true, stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>', is_html: true}
+		timeline: [
+			{
+				type: 'measure-width',
+				ruler: true,
+				is_html: true,
+				stimulus: jsPsych.timelineVariable('stimulus')
+			}
     ],
-    randomize_order: true
+		timeline_variables: [
+			{stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
+		],
+		randomize_order: true
   }
 
   var question = ["In order for this calibration procedure to work, we need participants like yourself to have access to an object of<br/>"+

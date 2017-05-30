@@ -2,9 +2,7 @@
  * jspsych-measure-width
  * Steve Chao
  *
- * plugin
- *
- * documentation: docs.jspsych.org
+ * plugin to record the width of a stimulus
  *
  **/
 
