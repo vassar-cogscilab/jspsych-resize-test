@@ -26,7 +26,7 @@
 			'and then click the button below to continue. If you do not have access to a ruler, please do not complete this experiment<br/><br/>'
     ],
     show_clickable_nav: true
-  }
+  };
 
 	var instructions = {
     type: 'instructions',
@@ -36,7 +36,7 @@
 			'click the button below.<br/><br/>'
     ],
     show_clickable_nav: true
-  }
+  };
 
   var unchangedBoxes = {
     timeline: [
@@ -55,7 +55,7 @@
 			{stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
 		],
 		randomize_order: true
-  }
+  };
 
 	var resize = {
 		type: 'resize',
@@ -82,15 +82,15 @@
 			{stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
 		],
 		randomize_order: true
-  }
+  };
 
   var question = ["In order for this calibration procedure to work, we need participants like yourself to have access to an object of<br/>"+
 									"a known size. Listed below are some common household items that have a known size. Please indicate, by checking the boxes<br/>"+
-									"next to the items, which of the following objects would you be able to easily find in your home right now."]
+									"next to the items, which of the following objects would you be able to easily find in your home right now."];
 
   var choices = [
     ["Credit/Debit card", "Driver's License / Non-driver identification card", "3x5\" index card", "U.S. Quarter", "U.S. Dime", "U.S. Nickel", "U.S. Penny", "A sheet of standard size paper (8.5\" x 11\")",  "CD/DVD", "A check (for a bank account)", "A playing card from a standard deck of cards", "AA battery", "AAA battery", "9V battery"]
-  ]
+  ];
 
   var multi_choice_block = {
      type: 'survey-multi-select',
@@ -119,8 +119,8 @@
       	console.log(response.success);
     	}
   	};
-  	xhr.send(jsPsych.data.getData().json());
-	}
+  	xhr.send(jsPsych.data.get().json());
+	};
 
 
 	jsPsych.init({
