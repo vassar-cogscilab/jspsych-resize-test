@@ -110,12 +110,24 @@
 		 }
   };
 
+	function saveData() {
+		var xhr = new XMLHttpRequest();
+  	xhr.open('POST', 'write_data.php');
+  	xhr.setRequestHeader('Content-Type', 'application/json');
+  	xhr.onload = function() {
+    	if(xhr.status == 200){
+      	var response = JSON.parse(xhr.responseText);
+      	console.log(response.success);
+    	}
+  	};
+  	xhr.send(jsPsych.data.getData().json());
+	}
+
 
 	jsPsych.init({
 		timeline: [introduction, instructions, unchangedBoxes, resize, instructions, resizedBoxes, multi_choice_block],
     show_progress_bar: true,
-		on_finish: function() {
-		}
+		on_finish: saveData
 	});
 	</script>
 </html>
