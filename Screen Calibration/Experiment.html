@@ -12,6 +12,12 @@
 </body>
 <script>
 
+	var subject_id = jsPsych.randomization.randomID(2);
+
+	jsPsych.data.addProperties({
+		subject: subject_id
+	});
+
   var introduction = {
     type: 'instructions',
     pages: [
