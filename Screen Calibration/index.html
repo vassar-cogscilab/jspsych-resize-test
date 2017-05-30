@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="jspsych.js"></script>
+	<script src="plugins/jspsych-resize.js"></script>
+	<script src="plugins/jspsych-measure-width.js"></script>
+  <script src="plugins/jspsych-instructions.js"></script>
+  <script src="plugins/jspsych-survey-multi-select.js"></script>
+	<link rel="stylesheet" href="css/jspsych.css"></link>
+</head>
+<body>
+</body>
+<script>
+
+	var subject_id = jsPsych.randomization.randomID(2);
+
+	jsPsych.data.addProperties({
+		subject: subject_id
+	});
+
+  var introduction = {
+    type: 'instructions',
+    pages: [
+      'Thank you for participating in this experiment! We are testing a new method for calibrating the size at which images<br/>'+
+			'display on computer monitors. To complete this task, you will need a ruler that measures in inches. Please find a ruler<br/>'+
+			'and then click the button below to continue. If you do not have access to a ruler, please do not complete this experiment<br/><br/>'
+    ],
+    show_clickable_nav: true
+  }
+
+	var instructions = {
+    type: 'instructions',
+    pages: [
+      'On the next five screens, we will display a box and a ruler. You should measure the width (left edge to right edge) of<br/>'+
+			'the box in inches, and then click on the ruler to indicate the measurement that you got. When you are ready to begin,<br/>'+
+			'click the button below.<br/><br/>'
+    ],
+    show_clickable_nav: true
+  }
+
+  var unchangedBoxes = {
+    timeline: [
+			{
+				type: 'measure-width',
+				ruler: true,
+				is_html: true,
+				stimulus: jsPsych.timelineVariable('stimulus')
+			}
+    ],
+		timeline_variables: [
+			{stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
+		],
+		randomize_order: true
+  }
+
+	var resize = {
+		type: 'resize',
+		item_width: 3,
+		item_height: 3,
+		prompt: "<p>You can click and drag the bottom right corner of the box on the screen to change its size.<br/>Use your ruler to make the box exactly 3 inches wide. When you are done, click the button below to continue</p>",
+		pixels_per_unit: 100/1
+	};
+
+  var resizedBoxes = {
+		timeline: [
+			{
+				type: 'measure-width',
+				ruler: true,
+				is_html: true,
+				stimulus: jsPsych.timelineVariable('stimulus')
+			}
+    ],
+		timeline_variables: [
+			{stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
+		],
+		randomize_order: true
+  }
+
+  var question = ["In order for this calibration procedure to work, we need participants like yourself to have access to an object of<br/>"+
+									"a known size. Listed below are some common household items that have a known size. Please indicate, by checking the boxes<br/>"+
+									"next to the items, which of the following objects would you be able to easily find in your home right now."]
+
+  var choices = [
+    ["Credit/Debit card", "Driver's License / Non-driver identification card", "3x5\" index card", "U.S. Quarter", "U.S. Dime", "U.S. Nickel", "U.S. Penny", "A sheet of standard size paper (8.5\" x 11\")",  "CD/DVD", "A check (for a bank account)", "A playing card from a standard deck of cards", "AA battery", "AAA battery", "9V battery"]
+  ]
+
+  var multi_choice_block = {
+     type: 'survey-multi-select',
+     questions: question,
+     options: choices,
+     horizontal: false,
+     required: true,
+		 on_finish: function() {
+			 jsPsych.endExperiment('Thank you for participating! Your participation is helping us to develop a tool that will<br/>'+
+			 											 'allow researchers to have more control over the viewing conditions of online experiments.<br/>'+
+														 'By measuring the display size with a ruler or an object of a known size, we can adjust the<br/>'+
+														 'size of objects in the experiment to ensure that they display at similar sizes for people with<br/>'+
+														 'different kinds of computers. We will use data from this experiment to determine how effective<br/>'+
+														 'this calibration process is. If you have any questions about the research, please contact<br/>'+
+														 'Dr. Josh de Leeuw at jdeleeuw@vassar.edu. Thank you again!');
+			 console.log("data", jsPsych.data);
+		 }
+  };
+
+	function saveData() {
+		var xhr = new XMLHttpRequest();
+  	xhr.open('POST', 'write_data.php');
+  	xhr.setRequestHeader('Content-Type', 'application/json');
+  	xhr.onload = function() {
+    	if(xhr.status == 200){
+      	var response = JSON.parse(xhr.responseText);
+      	console.log(response.success);
+    	}
+  	};
+  	xhr.send(jsPsych.data.getData().json());
+	}
+
+
+	jsPsych.init({
+		timeline: [introduction, instructions, unchangedBoxes, resize, instructions, resizedBoxes, multi_choice_block],
+    show_progress_bar: true,
+		on_finish: saveData
+	});
+	</script>
+</html>
