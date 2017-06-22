@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="jspsych.js"></script>
+	<script src="js/serverComm.js" type="text/javascript"></script>
+	<script src="js/jspsych.js"></script>
 	<script src="plugins/jspsych-resize.js"></script>
 	<script src="plugins/jspsych-measure-width.js"></script>
-  <script src="plugins/jspsych-instructions.js"></script>
-  <script src="plugins/jspsych-survey-multi-select.js"></script>
+  	<script src="plugins/jspsych-instructions.js"></script>
+  	<script src="plugins/jspsych-survey-multi-select.js"></script>
+	<script src="plugins/jspsych-text.js"></script>
+	<script src="plugins/jspsych-call-function.js"></script>
 	<link rel="stylesheet" href="css/jspsych.css"></link>
 </head>
 <body>
 </body>
 <script>
 
-	var subject_id = jsPsych.randomization.randomID(2);
+	var subject_id = jsPsych.randomization.randomID(20);
 
 	jsPsych.data.addProperties({
-		subject: subject_id
+		subject_id: subject_id
 	});
 
   var introduction = {
@@ -48,11 +51,11 @@
 			}
     ],
 		timeline_variables: [
-			{stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
+			{stimulus:'<div id="unchanged_box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="unchanged_box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="unchanged_box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="unchanged_box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="unchanged_box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
 		],
 		randomize_order: true
   };
@@ -75,11 +78,11 @@
 			}
     ],
 		timeline_variables: [
-			{stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
+			{stimulus:'<div id="resized_box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="resized_box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="resized_box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="resized_box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>'},
+			{stimulus:'<div id="resized_box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
 		],
 		randomize_order: true
   };
@@ -97,36 +100,31 @@
      questions: question,
      options: choices,
      horizontal: false,
-     required: true,
-		 on_finish: function() {
-			 jsPsych.endExperiment('Thank you for participating! Your participation is helping us to develop a tool that will<br/>'+
-			 											 'allow researchers to have more control over the viewing conditions of online experiments.<br/>'+
-														 'By measuring the display size with a ruler or an object of a known size, we can adjust the<br/>'+
-														 'size of objects in the experiment to ensure that they display at similar sizes for people with<br/>'+
-														 'different kinds of computers. We will use data from this experiment to determine how effective<br/>'+
-														 'this calibration process is. If you have any questions about the research, please contact<br/>'+
-														 'Dr. Josh de Leeuw at jdeleeuw@vassar.edu. Thank you again!');
-		 }
+     required: true
   };
 
-	function saveData() {
-		var xhr = new XMLHttpRequest();
-  	xhr.open('POST', 'write_data.php');
-  	xhr.setRequestHeader('Content-Type', 'application/json');
-  	xhr.onload = function() {
-    	if(xhr.status == 200){
-      	var response = JSON.parse(xhr.responseText);
-      	console.log(response.success);
-    	}
-  	};
-  	xhr.send(jsPsych.data.get().json());
-	};
+
+
+	var save = {
+  	type: 'call-function',
+  	func: function(){
+    	serverComm.save_data(jsPsych.data.get().values());
+  	}, 
+	on_finish: function() {
+	jsPsych.endExperiment('Thank you for participating! Your participation is helping us to develop a tool that will<br/>'+
+													'allow researchers to have more control over the viewing conditions of online experiments.<br/>'+
+													'By measuring the display size with a ruler or an object of a known size, we can adjust the<br/>'+
+													'size of objects in the experiment to ensure that they display at similar sizes for people with<br/>'+
+													'different kinds of computers. We will use data from this experiment to determine how effective<br/>'+
+													'this calibration process is. If you have any questions about the research, please contact<br/>'+
+													'Dr. Josh de Leeuw at jdeleeuw@vassar.edu. Thank you again!');
+	}
+	}
 
 
 	jsPsych.init({
-		timeline: [introduction, instructions, unchangedBoxes, resize, instructions, resizedBoxes, multi_choice_block],
-    show_progress_bar: true,
-		on_finish: saveData
+		timeline: [introduction, instructions, unchangedBoxes, resize, instructions, resizedBoxes, multi_choice_block, save],
+    show_progress_bar: true
 	});
 	</script>
 </html>
