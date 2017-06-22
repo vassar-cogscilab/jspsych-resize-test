@@ -5,8 +5,8 @@
 	<script src="js/jspsych.js"></script>
 	<script src="plugins/jspsych-resize.js"></script>
 	<script src="plugins/jspsych-measure-width.js"></script>
-  	<script src="plugins/jspsych-instructions.js"></script>
-  	<script src="plugins/jspsych-survey-multi-select.js"></script>
+  <script src="plugins/jspsych-instructions.js"></script>
+  <script src="plugins/jspsych-survey-multi-select.js"></script>
 	<script src="plugins/jspsych-text.js"></script>
 	<script src="plugins/jspsych-call-function.js"></script>
 	<link rel="stylesheet" href="css/jspsych.css"></link>
@@ -47,18 +47,21 @@
 				type: 'measure-width',
 				ruler: true,
 				is_html: true,
-				stimulus: jsPsych.timelineVariable('stimulus')
+				stimulus: jsPsych.timelineVariable('stimulus'),
+				data: jsPsych.timelineVariable('data')
 			}
     ],
 		timeline_variables: [
-			{stimulus:'<div id="unchanged_box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="unchanged_box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="unchanged_box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="unchanged_box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="unchanged_box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
+			{stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>', data: {phase: 'pre-calibration', pixels: 250, target_width: 2.5}},
+			{stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>', data: {phase: 'pre-calibration', pixels: 275, target_width: 2.75}},
+			{stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>', data: {phase: 'pre-calibration', pixels: 300, target_width: 3}},
+			{stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>', data: {phase: 'pre-calibration', pixels: 325, target_width: 3.25}},
+			{stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>', data: {phase: 'pre-calibration', pixels: 350, target_width: 3.5}}
 		],
 		randomize_order: true
   };
+
+	/* run calibration */
 
 	var resize = {
 		type: 'resize',
@@ -68,24 +71,29 @@
 		pixels_per_unit: 100/1
 	};
 
+	/* test after calibration */
+
   var resizedBoxes = {
 		timeline: [
 			{
 				type: 'measure-width',
 				ruler: true,
 				is_html: true,
-				stimulus: jsPsych.timelineVariable('stimulus')
+				stimulus: jsPsych.timelineVariable('stimulus'),
+				data: jsPsych.timelineVariable('data')
 			}
     ],
 		timeline_variables: [
-			{stimulus:'<div id="resized_box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="resized_box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="resized_box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="resized_box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>'},
-			{stimulus:'<div id="resized_box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>'}
+			{stimulus:'<div id="box1" style="width: 250px; height: 250px; background-color: red; margin: 0 auto;"></div>', data: {phase: 'post-calibration', pixels: 250, target_width: 2.5}},
+			{stimulus:'<div id="box2" style="width: 275px; height: 275px; background-color: red; margin: 0 auto;"></div>', data: {phase: 'post-calibration', pixels: 275, target_width: 2.75}},
+			{stimulus:'<div id="box3" style="width: 300px; height: 300px; background-color: red; margin: 0 auto;"></div>', data: {phase: 'post-calibration', pixels: 300, target_width: 3}},
+			{stimulus:'<div id="box4" style="width: 325px; height: 325px; background-color: red; margin: 0 auto;"></div>', data: {phase: 'post-calibration', pixels: 325, target_width: 3.25}},
+			{stimulus:'<div id="box5" style="width: 350px; height: 350px; background-color: red; margin: 0 auto;"></div>', data: {phase: 'post-calibration', pixels: 350, target_width: 3.5}}
 		],
 		randomize_order: true
   };
+
+	/* survey about household items */
 
   var question = ["In order for this calibration procedure to work, we need participants like yourself to have access to an object of<br/>"+
 									"a known size. Listed below are some common household items that have a known size. Please indicate, by checking the boxes<br/>"+
@@ -103,24 +111,25 @@
      required: true
   };
 
-
+	/* saving and ending experiment */
 
 	var save = {
   	type: 'call-function',
   	func: function(){
     	serverComm.save_data(jsPsych.data.get().values());
-  	}, 
-	on_finish: function() {
-	jsPsych.endExperiment('Thank you for participating! Your participation is helping us to develop a tool that will<br/>'+
-													'allow researchers to have more control over the viewing conditions of online experiments.<br/>'+
-													'By measuring the display size with a ruler or an object of a known size, we can adjust the<br/>'+
-													'size of objects in the experiment to ensure that they display at similar sizes for people with<br/>'+
-													'different kinds of computers. We will use data from this experiment to determine how effective<br/>'+
-													'this calibration process is. If you have any questions about the research, please contact<br/>'+
-													'Dr. Josh de Leeuw at jdeleeuw@vassar.edu. Thank you again!');
+  	},
+		on_finish: function() {
+			jsPsych.endExperiment(
+				'Thank you for participating! Your participation is helping us to develop a tool that will<br/>'+
+				'allow researchers to have more control over the viewing conditions of online experiments.<br/>'+
+				'By measuring the display size with a ruler or an object of a known size, we can adjust the<br/>'+
+				'size of objects in the experiment to ensure that they display at similar sizes for people with<br/>'+
+				'different kinds of computers. We will use data from this experiment to determine how effective<br/>'+
+				'this calibration process is. If you have any questions about the research, please contact<br/>'+
+				'Dr. Josh de Leeuw at jdeleeuw@vassar.edu. Thank you again!'
+			);
+		}
 	}
-	}
-
 
 	jsPsych.init({
 		timeline: [introduction, instructions, unchangedBoxes, resize, instructions, resizedBoxes, multi_choice_block, save],
